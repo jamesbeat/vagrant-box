@@ -150,3 +150,4 @@ include nodejs
 include npm
 include composer
 include drush_installer
+include xdebug

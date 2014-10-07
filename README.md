@@ -36,7 +36,7 @@ Technical Details
 * bower
 * composer
 * Drush
-
+* xdebug
 
 ### Connecting
 #### Apache
