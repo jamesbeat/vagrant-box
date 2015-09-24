@@ -4,7 +4,7 @@
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
-project_name = "test"
+project_name = "stylebox"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # All Vagrant configuration is done here. The most common configuration
@@ -29,8 +29,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
   config.hostmanager.enabled = true
   config.hostmanager.manage_host = true
-  
-  config.vm.network "private_network", ip: "192.168.33.10"
+    
+	config.vm.network "forwarded_port", guest: 80, host: 8080
+	config.vm.network "forwarded_port", guest: 22, host: 2223, host_ip: "0.0.0.0", id: "ssh", auto_correct: true
+	
+	config.vm.network "private_network", ip: "192.168.33.10"
+	config.vm.network "public_network", ip: "192.168.33.20", :bridge => 'eth0'
+	config.vm.network "public_network", ip: "192.168.33.30", :bridge => 'eth0'
+   
 
   config.vm.hostname = project_name + ".local"
 
@@ -41,13 +47,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false
-  # config.ssh.forward_agent = true
+   config.ssh.forward_agent = true
+   config.ssh.username = "vagrant"
+	config.ssh.password = "vagrant"
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder "www", "/var/www/html", :owner => "www-data"
+  config.vm.synced_folder "var/www/html", "/var/www/html", :owner => "www-data"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -56,10 +64,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider "virtualbox" do |vb|
   #   # Don't boot with headless mode
   #   vb.gui = true
-      vb.memory = 2048
+      vb.memory = 4096
       vb.cpus = 2
   #   # Use VBoxManage to customize the VM. For example to change memory:
-  #   vb.customize ["modifyvm", :id, "--memory", "1024"]
+  #   vb.customize ["modifyvm", :id, "--memory", "2048"]
   end
   #
   # View the documentation for the provider you're using for more
