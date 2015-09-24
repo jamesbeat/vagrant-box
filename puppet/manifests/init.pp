@@ -32,6 +32,9 @@ class apache {
 
 class mysql {
         $mysqlpassword = "root"
+        $style_name = "stylebox_base"
+        $style_user = "styler"
+        $style_password = "styler"
 
         package { "mysql-server":
                 ensure => present,
@@ -48,6 +51,21 @@ class mysql {
                 require => Service["mysql"],
                 path => '/usr/bin',
         }
+        
+        exec { "create-${style_name}-db":
+        	unless => "/usr/bin/mysql -uroot ${style_name}",
+        	command => "/usr/bin/mysql -uroot -e \"create database ${style_name};\"",
+       		require => Service["mysql"],
+            path => '/usr/bin',
+    	}
+
+      	exec { "grant-${style_name}-db":
+        	unless => "/usr/bin/mysql -u${style_user} -p${style_password} ${style_name}",
+        	command => "/usr/bin/mysql -uroot -e \"grant all on ${style_name}.* to ${style_user}@localhost identified by '$style_password';\"",
+        	require => [Service["mysql"], Exec["create-${style_name}-db"]],
+        	path => '/usr/bin',
+      	}
+      
 }
 
 class phpmyadmin {
