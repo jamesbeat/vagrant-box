@@ -1,7 +1,7 @@
-﻿Vagrant LAMP (Linux Apache Mysql PHP)
-=====================================
+﻿Vagrant stylebox
+================
 
-This Vagrantfile and puppet manifests files are for self-learning purpose. But it WORKS anyway.
+Sets up a vagrant box on the host machine
 
 Requirements
 ------------
@@ -15,10 +15,27 @@ Installation
 ------------
 Install virtualbox, vagrant, vagrant-hostmanager and git
 
+## On the host machine:
+
 ### Startup
-	$ git clone https://github.com/adrianmak/vagrant-box [your_project_folder]
-	$ cd [your_project_folder]
-	$ vagrant up
+
+>	$ git clone https://github.com/jamesbeat/vagrant-box [your_project_folder] (or download the Zip to your project folder)
+>	$ cd [your_project_folder]
+>	$ vagrant up
+
+## On the clinet machine(s):
+
+>	$ sudo nano hosts
+	
+	add line:
+	
+>	10.0.1.28:8080 stylebox
+	
+	save and exit
+	
+	Flush cache
+
+>	$ dscacheutil -flushcache
 
 
 Technical Details
@@ -39,16 +56,16 @@ Technical Details
 * xdebug
 
 ### Connecting
-#### Apache
-http://test.local
+#### URL:
 
-Make www folder under project folder. This is the DocumentRoot of Apache.
+10.0.0.29:8080
 
-#### mailcatcher
-http://test.local:1080
+#### Files Directory: 
+
+var/www/html
 
 #### PhpMyAdmin
-http://test.local/phpmyadmin
+http://10.0.0.29:8080/phpmyadmin
 
 #### Vagrant shell password
 	vagrant
@@ -59,3 +76,17 @@ http://test.local/phpmyadmin
 #### You could access to the vagrant box in two ways
 1. From vagrant. At the project folder, execute 'vagrant ssh'
 2. Remote SSH
+
+###Advanced Setup
+
+#### Autostart with plist File
+
+http://tabletme.de/os-xboot-your-vagrant-box-with-your-system/
+
+
+### Usage
+
+To ssh into the host from client:
+	
+>	$ sudo ssh -p 2223 vagrant@10.0.2.28
+

@@ -33,9 +33,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	config.vm.network "forwarded_port", guest: 80, host: 8080
 	config.vm.network "forwarded_port", guest: 22, host: 2223, host_ip: "0.0.0.0", id: "ssh", auto_correct: true
 	
-	config.vm.network "private_network", ip: "192.168.33.10"
-	config.vm.network "public_network", ip: "192.168.33.20", :bridge => 'eth0'
-	config.vm.network "public_network", ip: "192.168.33.30", :bridge => 'eth0'
+	#config.vm.network "private_network", ip: "192.168.33.10"
+	#config.vm.network "public_network", ip: "192.168.33.20", :bridge => 'eth0'
+	#config.vm.network "public_network", ip: "192.168.33.30", :bridge => 'eth0'
    
 
   config.vm.hostname = project_name + ".local"
@@ -48,8 +48,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false
    config.ssh.forward_agent = true
-   config.ssh.username = "vagrant"
-	config.ssh.password = "vagrant"
+   config.ssh.username = 'root'
+	config.ssh.password = 'vagrant'
+	config.ssh.insert_key = 'true'
+
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
