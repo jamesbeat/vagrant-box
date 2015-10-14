@@ -12,6 +12,7 @@ class apache {
 	package { 'apache2':
 		ensure => present,
 		require => Exec["apt-get update"]
+		
 	}
 
         file { '/tmp/apache.sh':
@@ -28,6 +29,24 @@ class apache {
                 ensure => running,
                 require => Package['apache2'],
         }
+            
+	
+	
+}
+
+
+
+
+include "apache"
+
+apache::vhost { 'test':
+  docroot     => '/var/www/html',
+  directories => [
+    { 'path'     => '/var/www/html/test',
+      'provider' => 'files',
+      'deny'     => 'from all'
+     },
+  ],
 }
 
 class mysql {

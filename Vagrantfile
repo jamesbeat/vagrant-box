@@ -29,6 +29,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
   config.hostmanager.enabled = true
   config.hostmanager.manage_host = true
+  config.hostmanager.aliases = %w(stylebox.local stylebox.atlas)
     
 	config.vm.network "forwarded_port", guest: 80, host: 8080
 	config.vm.network "forwarded_port", guest: 22, host: 2223, host_ip: "0.0.0.0", id: "ssh", auto_correct: true
@@ -50,7 +51,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
    config.ssh.forward_agent = true
    config.ssh.username = 'vagrant'
 	config.ssh.password = 'vagrant'
-	config.ssh.insert_key = 'true'
+	config.ssh.insert_key = false
 
 
   # Share an additional folder to the guest VM. The first argument is
